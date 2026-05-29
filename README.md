@@ -54,8 +54,7 @@
 
 ## 실험 히스토리
 
-> 상세 실험 노트: [exp1/experiments.md](exp1/experiments.md)  
-> 전체 설계 배경 및 다음 실험 후보: [CLAUDE.md](CLAUDE.md)
+> 상세 실험 노트: [exp1/experiments.md](exp1/experiments.md)
 
 ### Demo 스케일 (1,000행 / 700 train / 300 valid / 3 epoch / CPU)
 
@@ -97,20 +96,10 @@ TAAC_modeling/
 ├── exp2/ ~ exp13/          # 실험별 모델 (model{N}.py + run.sh + train.py + trainer.py)
 │   └── model{N}.py         # 실험별 핵심 모델 구현
 │
-├── submit1/ ~ submit13/    # 플랫폼 제출용 flat 패키징
-│   ├── model{N}.py         # 해당 실험 모델
-│   ├── train.py / trainer.py / infer.py
-│   ├── dataset*.py / model.py / utils.py
-│   ├── schema_aligned.json
-│   └── run.sh              # PYTHONPATH=${SCRIPT_DIR} (self-contained)
-│
-├── data/
-│   ├── demo_1000.parquet   # 1,000행 데모 데이터 (git 제외)
-│   ├── schema.json         # 원본 스키마 (total_dim=755)
-│   └── DATASET_README.md   # 피처 정의 및 데이터 스키마 설명
-│
-├── CLAUDE.md               # 대회 개요, 설계 제약, 전체 실험 히스토리
-└── README.md               # 이 파일
+└── data/
+    ├── demo_1000.parquet   # 1,000행 데모 데이터 (git 제외)
+    ├── schema.json         # 원본 스키마 (total_dim=755)
+    └── DATASET_README.md   # 피처 정의 및 데이터 스키마 설명
 ```
 
 ---
@@ -133,14 +122,14 @@ TRAIN_TF_EVENTS_PATH=/path/to/events \
 bash baseline/run.sh
 ```
 
-### Best 모델 (exp6 / submit6) 학습
+### Best 모델 (exp6) 학습
 
 ```bash
 TRAIN_DATA_PATH=/path/to/data \
 TRAIN_CKPT_PATH=/path/to/ckpt \
 TRAIN_LOG_PATH=/path/to/log \
 TRAIN_TF_EVENTS_PATH=/path/to/events \
-bash submit6/run.sh \
+bash exp6/run.sh \
     --seq_max_lens 'seq_a:256,seq_b:256,seq_c:512,seq_d:512' \
     --num_epochs 10
 ```
@@ -156,13 +145,3 @@ bash submit6/run.sh \
 | `--num_epochs` | 학습 에폭 수 | 10 |
 | `--device` | 학습 디바이스 | cuda (자동 감지) |
 
----
-
-## 제출 패키지 구조
-
-각 `submit{N}/` 디렉토리는 플랫폼 제출 기준에 맞게 self-contained flat 구조로 패키징됨.
-
-- `PYTHONPATH=${SCRIPT_DIR}` — 단일 디렉토리 참조
-- `run.sh` — 실행 엔트리포인트
-- `infer.py` — 추론 엔트리포인트 (`main()` 함수 포함)
-- 모든 의존 파일을 디렉토리 내에 포함 (상위 경로 참조 없음)

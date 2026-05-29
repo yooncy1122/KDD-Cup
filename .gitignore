@@ -47,5 +47,8 @@ env/
 # Submit packages (platform submission artifacts)
 submit*/
 
+# Project-internal docs
+CLAUDE.md
+
 # Claude Code
 .claude/settings.local.json
