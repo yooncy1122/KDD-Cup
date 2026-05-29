@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pip3 show *)",
+      "Bash(python3 -c \"import sys; print\\(sys.path\\)\")",
+      "Bash(python3 -c \"import tensorboard; print\\(tensorboard.__file__\\)\")",
+      "Read(//Users/elisha/Library/Python/3.9/lib/python/site-packages/**)",
+      "Bash(python3 -m pip install tensorboard)",
+      "Bash(python3 -c \"import tensorboard; print\\('OK', tensorboard.__version__\\)\")"
+    ]
+  }
+}
